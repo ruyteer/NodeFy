@@ -1,6 +1,7 @@
 const Files = require("../domain/entities/Files");
+const fileCases = require("../domain/useCases/fileCases");
 const userCases = require("../domain/useCases/userCases");
-const getToken = require("../services/middleware/getToken");
+const getDecoded = require("../services/middleware/getDecoded");
 
 module.exports = class UploadController {
   static async upload(req, res) {
@@ -14,7 +15,7 @@ module.exports = class UploadController {
       return;
     }
 
-    const decoded = await getToken(req);
+    const decoded = await getDecoded(req);
 
     try {
       const files = new Files({
@@ -35,10 +36,19 @@ module.exports = class UploadController {
   }
 
   static async getFiles(req, res) {
-    const files = await Files.find();
+    const decoded = await getDecoded(req);
 
-    res.json({
-      files: files,
-    });
+    try {
+      const files = await fileCases.getUserFile(decoded._id);
+
+      res.json({
+        files: files,
+      });
+    } catch (err) {
+      res.status(500).json({
+        error: err.message,
+      });
+      return;
+    }
   }
 };
