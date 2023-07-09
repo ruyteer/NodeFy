@@ -31,7 +31,6 @@ Após ter efetuado todos os passos anteriores, execute o comando "npm start" no 
 ## O que esta API pode fazer?
 
 O NodeFy recebe arquivos do body através do Multer e salva os mesmos no storage da firebase. 
-Além disso, ela possui um sistema de autenticação (registro e login de usuários) que protegem as rotas relacionadas aos arquivos.
 
 ## Contato
 
