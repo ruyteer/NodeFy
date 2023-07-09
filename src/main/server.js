@@ -9,8 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 const uploadRoutes = require("./routes/uploadRoutes.js");
-const userRoutes = require("./routes/userRoutes");
+
 app.use(uploadRoutes);
-app.use(userRoutes);
 
 app.listen(3000);

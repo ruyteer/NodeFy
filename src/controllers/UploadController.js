@@ -1,7 +1,4 @@
 const Files = require("../domain/entities/Files");
-const fileCases = require("../domain/useCases/fileCases");
-const userCases = require("../domain/useCases/userCases");
-const getDecoded = require("../services/middleware/getDecoded");
 
 module.exports = class UploadController {
   static async upload(req, res) {
@@ -15,11 +12,8 @@ module.exports = class UploadController {
       return;
     }
 
-    const decoded = await getDecoded(req);
-
     try {
       const files = new Files({
-        user: decoded._id,
         fileName: name,
         fileUrl: file.firebaseUrl,
       });
@@ -36,10 +30,8 @@ module.exports = class UploadController {
   }
 
   static async getFiles(req, res) {
-    const decoded = await getDecoded(req);
-
     try {
-      const files = await fileCases.getUserFile(decoded._id);
+      const files = await Files.find();
 
       res.json({
         files: files,
